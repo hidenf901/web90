@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lk-90 - Личный кабинет</title>
     <style>
-        /* Все стили остаются без изменений */
         :root {
             --primary: #1a2a6c;
             --secondary: #b21f1f;
@@ -1748,7 +1747,7 @@
             { id: 6, name: 'Пончик с посыпкой', price: 7, emoji: '🍩' }
         ];
         
-        // Функция входа
+        // Функция входа - ИСПРАВЛЕННАЯ (без блокировки)
         function login() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -1756,13 +1755,7 @@
             const successMessage = document.getElementById('successMessage');
             
             if (users[username] && users[username].password === password) {
-                // Проверяем, активно ли занятие (кроме dimaV)
-                if (username !== 'dimaV' && !lessonActive) {
-                    errorMessage.textContent = 'Аккаунт заблокирован! Занятие не начато.';
-                    errorMessage.style.display = 'block';
-                    successMessage.style.display = 'none';
-                    return;
-                }
+                // УБРАНА ПРОВЕРКА НА БЛОКИРОВКУ - все могут заходить всегда!
                 
                 currentUser = username;
                 document.getElementById('loginForm').style.display = 'none';
@@ -1785,11 +1778,13 @@
                     document.getElementById('manageUsersBtn').style.display = 'block';
                     document.getElementById('registerBtn').style.display = 'block';
                     document.getElementById('manageStarsBtn').style.display = 'block';
+                    document.getElementById('startLessonBtn').style.display = 'block';
                 } else {
                     document.getElementById('manageProductsBtn').style.display = 'none';
                     document.getElementById('manageUsersBtn').style.display = 'none';
                     document.getElementById('registerBtn').style.display = 'none';
                     document.getElementById('manageStarsBtn').style.display = 'none';
+                    document.getElementById('startLessonBtn').style.display = 'none';
                 }
             } else {
                 errorMessage.style.display = 'block';
@@ -1933,7 +1928,7 @@
             document.getElementById('stopLessonBtn').style.display = 'block';
             document.getElementById('lessonTimer').style.display = 'block';
             startLessonTimer();
-            lessonActive = true; // Активируем занятие для всех пользователей
+            lessonActive = true;
         }
         
         function cancelLesson() {
@@ -1945,7 +1940,7 @@
             document.getElementById('stopLessonBtn').style.display = 'none';
             document.getElementById('lessonTimer').style.display = 'none';
             stopLessonTimer();
-            lessonActive = false; // Деактивируем занятие
+            lessonActive = false;
             alert(`Занятие завершено! Общее время: ${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`);
             resetLessonTimer();
         }
